@@ -1,5 +1,4 @@
 import aocd as aocd
-import math
 
 f = aocd.get_data(day=11, year=2022)
 monkeys = []
@@ -14,6 +13,10 @@ for currentBlock in f.split("\n\n"):
 
     monkeys.append([id, items, operation, divider, trueMonkey, falseMonkey, 0])
 
+bigDivider = 1
+for k in monkeys:
+    bigDivider *= k[3]
+
 for h in range(10000):
     for i in range(len(monkeys)):
         for j in monkeys[i][1]:
@@ -25,11 +28,10 @@ for h in range(10000):
                 else:
                     val = j * int(monkeys[i][2][1])
             # val = math.trunc(val / 3)
+            val = val % bigDivider
             if val % monkeys[i][3] == 0:
-                val = val % monkeys[monkeys[i][4]][3]
                 monkeys[monkeys[i][4]][1].append(val)
             else:
-                val = val % monkeys[monkeys[i][5]][3]
                 monkeys[monkeys[i][5]][1].append(val)
             monkeys[i][6] += 1
         monkeys[i][1].clear()
